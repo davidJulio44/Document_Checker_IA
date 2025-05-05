@@ -1,105 +1,121 @@
 import streamlit as st
+from langchain_community.llms import Ollama
+from langchain_community.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain.chains import RetrievalQA
+from PyPDF2 import PdfReader
 import os
 import json
-import tempfile
 
-from langchain_community.document_loaders import PyPDFLoader
-from langchain_ollama import ChatOllama
-from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
-from langchain_core.output_parsers import StrOutputParser
+# LLM local
+llm = Ollama(model="gemma:2b-instruct-q4_0")
 
-# Función para cargar un PDF y extraer texto
-def cargar_pdf(ruta_pdf):
-    loader = PyPDFLoader(ruta_pdf)
-    paginas = loader.load_and_split()
-    contenido = "\n".join([p.page_content for p in paginas])
-    return contenido
+# Cargar índice FAISS
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+db = FAISS.load_local("index/faiss_index", embeddings, allow_dangerous_deserialization=True)
+retriever = db.as_retriever(search_kwargs={"k": 3})
+qa = RetrievalQA.from_chain_type(llm=llm, retriever=retriever, return_source_documents=True)
 
-# Función para cargar estructura del JSON
-def cargar_estructura_json():
-    ruta_json = os.path.join("templates", "competencias.json")
-    with open(ruta_json, "r", encoding="utf-8") as archivo:
-        datos = json.load(archivo)
-    return datos
+# Configuración de la interfaz
+st.set_page_config(page_title="RAG - Competencias por Curso", layout="wide")
+st.title("🔍 RAG - Competencias por Curso")
+st.write("Carga el archivo RAE y luego busca el curso para validar competencias.")
 
-# Configuración Streamlit
-st.set_page_config(page_title="📄 Verificación de PDA y RAE", page_icon="📚")
-st.title("📚 Verificador de Documentos PDA y RAE")
+# Entrada del curso
+curso_input = st.text_input("📚 Código del curso (Ej: 22A10)", max_chars=10)
 
-# Subir documentos
-st.header("Sube tus documentos 📑")
+# Subida del archivo RAE
+rae_file = st.file_uploader("📄 Carga el archivo PDF del RAE", type=["pdf"])
 
-pda_pdf = st.file_uploader("Sube el PDA (Planeación del curso) en PDF", type="pdf")
-rae_pdf = st.file_uploader("Sube el RAE (Resultados de Aprendizaje Esperados) en PDF", type="pdf")
+# Subida del archivo PDA
+st.markdown("---")
+st.header("📎 Análisis del PDA")
+pda_file = st.file_uploader("📄 Carga el archivo PDF del PDA", type=["pdf"], key="pda")
 
-# Botón de analizar
-if st.button("Analizar documentos 🚀"):
-    if pda_pdf and rae_pdf:
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_pda:
-            temp_pda.write(pda_pdf.read())
-            pda_path = temp_pda.name
+# Función para cargar el JSON
+def load_json_from_templates(filename):
+    path = os.path.join("templates", filename)
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
 
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_rae:
-            temp_rae.write(rae_pdf.read())
-            rae_path = temp_rae.name
+# Función para verificar presencia
+def verificar_presencia(lista_terminos, texto):
+    encontrados = [t for t in lista_terminos if t.lower() in texto]
+    return encontrados
 
-        # Extraer textos
-        texto_pda = cargar_pdf(pda_path)
-        texto_rae = cargar_pdf(rae_path)
-        estructura_json = cargar_estructura_json()
+# Si se carga el PDA
+if pda_file:
+    pda_reader = PdfReader(pda_file)
+    pda_text = "\n".join(page.extract_text() or "" for page in pda_reader.pages).lower()
 
-        st.success("✅ Documentos cargados exitosamente.")
+    st.subheader("🔍 Resultados del análisis del PDA")
 
-        # Mostrar un resumen corto
-        st.subheader("Resumen rápido de los documentos:")
-        st.text_area("Contenido del PDA", texto_pda[:1000] + "...")
-        st.text_area("Contenido del RAE", texto_rae[:1000] + "...")
+    # Cargar los datos
+    data = load_json_from_templates("competencias.json")
 
-        # Paso siguiente: enviar a Ollama
-        st.info("Listo para comparar con la estructura. ¡Vamos!")
+    competencias_generales = list(data.get("competencias genericas", {}).values())
+    competencias_especificas = list(data.get("competencias especificas", {}).values())
+    saberpro = list(data.get("SABER PRO", {}).values())
+    dimensiones = list(data.get("dimensiones", {}).values())
+    abet_items = list(data.get("ABET", {}).values())
 
-        # --- Aquí empieza la interacción con Ollama ---
+    resultados = {
+        "Competencias Genéricas": verificar_presencia(competencias_generales, pda_text),
+        "Competencias Específicas": verificar_presencia(competencias_especificas, pda_text),
+        "Competencias Saber Pro": verificar_presencia(saberpro, pda_text),
+        "Dimensiones": verificar_presencia(dimensiones, pda_text),
+        "ABET": verificar_presencia(abet_items, pda_text),
+    }
 
-        llm = ChatOllama(
-            model="deepseek-coder:6.7b-instruct-q4_K_M",
-            base_url="http://localhost:11434",
-            temperature=0.2,
-            streaming=False
-        )
+    for categoria, encontrados in resultados.items():
+        st.markdown(f"**🔸 {categoria}:**")
+        if encontrados:
+            for item in encontrados:
+                st.success(f"✔️ {item}")
+        else:
+            st.warning("No se encontraron coincidencias.")
 
-        prompt = ChatPromptTemplate.from_messages([
-            SystemMessagePromptTemplate.from_template(
-                "You are a university curriculum verification assistant. Your job is to check whether the provided RAE document complies with the expected structure according to the given JSON structure and is aligned with the PDA document."
-            ),
-            HumanMessagePromptTemplate.from_template(
-                f"""
-                PDA Document:
-                {texto_pda}
+# Si se cargan ambos archivos y hay código de curso
+if curso_input and rae_file:
+    reader = PdfReader(rae_file)
+    rae_text = "\n".join(page.extract_text() or "" for page in reader.pages)
 
-                RAE Document:
-                {texto_rae}
+    # Consultar con el agente RAG
+    query = f"¿Cuáles son las competencias específicas, genéricas, saberpro, abet y dimensión del curso {curso_input}?"
+    result = qa(query)
 
-                JSON Structure (example of RAE requirements):
-                {json.dumps(estructura_json, indent=2)}
+    st.markdown("### ✅ Competencias encontradas en el PDA:")
+    st.success(result['result'])
 
-                Instructions:
-                1. First, identify if the RAE includes sections like Course Name, Code, Core, Credits, Weekly Intensity.
-                2. Then, verify if the RAE learning outcomes match the expected outcomes mentioned in the PDA.
-                3. Report any missing sections or inconsistencies.
-                4. Conclude whether the RAE document is acceptable or needs corrections.
+    # Procesar el segundo archivo PDF: el PDA
+if pda_file:
+    pda_reader = PdfReader(pda_file)
+    pda_text = "\n".join(page.extract_text() or "" for page in pda_reader.pages).lower()
 
-                Respond in a clear and structured report format.
-                """
-            )
-        ])
+    # Leer el archivo de competencias JSON
+    with open("templates/competencias.json", "r", encoding="utf-8") as f:
+        competencias_data = json.load(f)
 
-        processing_pipeline = prompt | llm | StrOutputParser()
+    st.markdown("### 🧩 Comparación con competencias del JSON:")
+    
+    for categoria, competencias in competencias_data.items():
+        st.markdown(f"**{categoria.upper()}**")
+        for codigo, descripcion in competencias.items():
+            if descripcion.lower() in pda_text:
+                st.success(f"✔️ {codigo}: {descripcion}")
+            else:
+                st.warning(f"⚠️ {codigo} NO se encontró en el PDA")
 
-        resultado = processing_pipeline.invoke({})
 
-        st.subheader("📋 Informe de verificación:")
-        st.write(resultado)
 
+    st.markdown("### 📄 Contenido del RAE relacionado:")
+    if curso_input in rae_text:
+        st.info("✔️ El código del curso está presente en el RAE.")
+        if any(term in rae_text.lower() for term in ["especificas", "genericas", "dimension", "saberpro", "abet"]):
+            st.success("Se encontraron términos clave en el RAE.")
+        else:
+            st.warning("No se encontraron términos clave en el RAE.")
     else:
-        st.error("❗ Por favor, sube ambos documentos para proceder.")
+        st.error("❌ El código del curso NO está presente en el RAE.")
+
 

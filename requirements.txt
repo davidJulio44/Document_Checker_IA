@@ -3,4 +3,8 @@ langchain>=0.1.13
 langchain-core>=0.1.30
 langchain-community>=0.0.30
 langchain-ollama>=0.0.7
+langchain
+faiss-cpu
+sentence-transformers
+
 
