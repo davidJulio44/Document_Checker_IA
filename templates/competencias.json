@@ -1,0 +1,45 @@
+{
+    "competencias especificas": {
+      "C1": "Analiza y modela fenómenos y procesos para resolver problemas de gestión de información y del desarrollo de software, utilizando los fundamentos de las ciencias naturales y de la Ingeniería, con una visión sistémica del entorno.",
+      "C2": "Diseña sistemas, componentes o procesos para satisfacer requerimientos, restricciones y especificaciones técnicas relacionadas con la gestión de información y el desarrollo de software, considerando aspectos técnicos y económicos.",
+      "C3": "Formula y evalúa proyectos de ingeniería de software y gestión de las TIC, para su ejecución y administración, teniendo conciencia de sus implicaciones éticas, económicas y legales."
+    },
+    "ABET": {
+      "O1": "Identify, formulate, and solve complex engineering problems",
+      "O2": "Apply engineering design to produce solutions",
+      "O3": "Communicate effectively with a range of audiences",
+      "O4": "Recognize ethical and professional responsibilities in engineering situations",
+      "O5": "Function effectively on a team",
+      "O6": "Develop and conduct appropriate experimentation",
+      "O7": "Acquire and apply new knowledge"
+    },
+    "competencias genericas": {
+      "1a": "Comunicación en lengua materna",
+      "1b": "Comprensión lectora en inglés",
+      "1c": "Comunicación en segunda lengua",
+      "1d": "Pensamiento matemático",
+      "1e": "Cultura científica y tecnológica",
+      "1f": "Ética y ciudadanía",
+      "1g": "Aprender a aprender",
+      "1h": "Pensamiento crítico",
+      "1i": "Trabajo en equipo y en ambientes interculturales",
+      "1j": "Espíritu emprendedor",
+      "1k": "Cuidado del cuerpo",
+      "1l": "Pensamiento sistémico"
+    },
+    "SABER PRO": {
+      "SP1": "Razonamiento cuantitativo",
+      "SP2": "Lectura crítica",
+      "SP3": "Comunicación escrita",
+      "SP4": "Competencias ciudadanas",
+      "SP5": "Inglés"
+    },
+    "dimensiones": {
+      "D1": "Transdisciplinar",
+      "D2": "Ética",
+      "D3": "Investigación",
+      "D4": "Internacional",
+      "D5": "Espíritu emprendedor",
+      "D6": "Regional"
+    }
+  }
