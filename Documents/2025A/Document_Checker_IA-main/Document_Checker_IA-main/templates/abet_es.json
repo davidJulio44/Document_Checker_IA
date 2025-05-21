@@ -1,0 +1,56 @@
+{
+
+    "O1": {
+      "description": "Capacidad para identificar, formular y resolver problemas complejos de ingeniería aplicando principios de ingeniería, ciencia y matemáticas",
+      "indicadores": {
+        "1.1": "Identificar los problemas y las teorías y conceptos aplicables",
+        "1.2": "Formular el problema utilizando objetivos, suposiciones y restricciones apropiadas aplicando principios de ingeniería, ciencia y matemáticas",
+        "1.3": "Resolver y evaluar soluciones de problemas y adoptar una solución adecuada aplicando principios de ingeniería, ciencia y matemáticas."
+      }
+    },
+    "O2": {
+      "description": "Capacidad para aplicar el diseño de ingeniería para producir soluciones que satisfagan las necesidades especificadas teniendo en cuenta la salud pública, la seguridad y el bienestar, así como los factores globales, culturales, sociales, ambientales y económicos.",
+      "indicadores": {
+        "2.1": "Definir las especificaciones y restricciones del diseño y utilizar metodologías y prácticas de diseño probadas y los recursos disponibles para lograr la intención del diseño.",
+        "2.2": "Producir alternativas de diseño",
+        "2.3": "Verificar el diseño del componente/sistema/proceso contra las especificaciones y restricciones del diseño."
+      }
+    },
+    "O3": {
+        "description": "Capacidad para comunicarse eficazmente con una serie de audiencias",
+        "indicadores": {
+          "3.1": "Comunicar ideas técnicas en informes técnicos escritos, incluyendo gráficos y dibujos de ingeniería, etc.",
+          "3.2": "Realizar presentaciones técnicas orales efectivas a audiencias objetivo"
+        }
+      },
+      "O4": {
+        "description": "Capacidad para reconocer las responsabilidades éticas y profesionales en situaciones de ingeniería y hacer juicios informados, que deben considerar el impacto de las soluciones de ingeniería en contextos globales, económicos, ambientales y sociales.",
+        "indicadores": {
+          "4.1": "Comprender y aplicar los estándares profesionales y éticos de la ingeniería al tratar con la seguridad y el interés público considerando las pautas sociales y económicas y las leyes regulatorias.",
+          "4.2": "Reconocer el impacto de las soluciones de ingeniería en contextos globales, económicos, ambientales y sociales utilizando investigación y desarrollo actualizados en ingeniería de sistemas.",
+          "4.3": "Reconocer los problemas contemporáneos locales, nacionales, regionales y globales en la disciplina de la ingeniería de sistemas."
+        }
+      },
+      "O5": {
+        "description": "Capacidad para funcionar eficazmente en un equipo cuyos miembros conjuntamente proporcionan liderazgo, crean un entorno colaborativo e inclusivo, establecen metas, planifican tareas y cumplen objetivos.",
+        "indicadores": {
+          "5.1": "Desarrollar planes de trabajo en equipo y asignar recursos y tareas",
+          "5.2": "Participar, comunicarse y funcionar eficazmente en proyectos de trabajo en equipo"
+        }
+      },
+      "O6": {
+        "description": "Capacidad para desarrollar y llevar a cabo la experimentación adecuada, analizar e interpretar los datos y utilizar el juicio de ingeniería para sacar conclusiones",
+        "indicadores": {
+          "6.1": "Utilizar el equipo de laboratorio para realizar experimentos",
+          "6.2": "Utilizar sistemas de adquisición de datos, hardware y software para recoger, analizar e interpretar datos",
+          "6.3": "Preparar un informe técnico profesional"
+        }
+      },
+      "O7": {
+        "description": "Capacidad para adquirir y aplicar nuevos conocimientos según sea necesario, utilizando estrategias de aprendizaje adecuadas",
+        "indicadores": {
+          "7.1": "Demostrar la capacidad de participar en estrategias independientes de aprendizaje a lo largo de la vida."
+        }
+      }
+
+  }

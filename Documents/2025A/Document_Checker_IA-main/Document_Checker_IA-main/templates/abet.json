@@ -1,0 +1,57 @@
+{
+    
+      "O1": {
+        "description": "An ability to identify, formulate, and solve complex engineering problems by applying principles of engineering, science, and mathematics.",
+        "indicators": {
+          "1.1": "Identify the problems and applicable theories and concepts.",
+          "1.2": "Formulate the problem using appropriate objectives, assumptions and constraints by applying principles of engineering, science, and mathematics.",
+          "1.3": "Solve and evaluate problem solutions and adopt an adequate solution by applying principles of engineering, science, and mathematics."
+        }
+      },
+      "O2": {
+        "description": "An ability to apply engineering design to produce solutions that meet specified needs with consideration of public health, safety, and welfare, as well as global, cultural, social, environmental, and economic factors.",
+        "indicators": {
+          "2.1": "Define design specifications and constraints and utilize proven design methodologies and practices and available resources to achieve design intent.",
+          "2.2": "Produce design alternatives.",
+          "2.3": "Verify the component/system/process design against the design specifications and constraints."
+        }
+      },
+      "O3": {
+        "description": "An ability to communicate effectively with a range of audiences.",
+        "indicators": {
+          "3.1": "Communicate technical ideas in written technical reports including engineering graphs and drawings, etc.",
+          "3.2": "Conduct effective oral technical presentations to target audiences."
+        }
+      },
+      "O4": {
+        "description": "An ability to recognize ethical and professional responsibilities in engineering situations and make informed judgments, which must consider the impact of engineering solutions in global, economic, environmental, and societal contexts.",
+        "indicators": {
+          "4.1": "Understand and apply engineering professional and ethical standards in dealing with public safety and interest considering social and economic guidelines and regulatory laws.",
+          "4.2": "Recognize the impact of engineering solutions in global, economic, environmental, and societal contexts using current updated research and development in civil engineering.",
+          "4.3": "Recognize contemporary local, national, regional, and global issues in the civil engineering discipline."
+        }
+      },
+      "O5": {
+        "description": "An ability to function effectively on a team whose members together provide leadership, create a collaborative and inclusive environment, establish goals, plan tasks, and meet objectives.",
+        "indicators": {
+          "5.1": "Develop team work plans and allocate resources and tasks.",
+          "5.2": "Participate, communicate and function effectively in team work projects."
+        }
+      },
+      "O6": {
+        "description": "An ability to develop and conduct appropriate experimentation, analyze and interpret data, and use engineering judgment to draw conclusions.",
+        "indicators": {
+          "6.1": "Use lab equipment to conduct experiments.",
+          "6.2": "Use data acquisition systems, hardware and software to collect, analyze and interpret data.",
+          "6.3": "Prepare a professional technical report."
+        }
+      },
+      "O7": {
+        "description": "An ability to acquire and apply new knowledge as needed, using appropriate learning strategies.",
+        "indicators": {
+          "7.1": "Demonstrate the ability to engage in independent life-long learning strategies."
+        }
+      }
+    
+  }
+  
